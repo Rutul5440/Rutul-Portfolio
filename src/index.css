@@ -54,9 +54,9 @@
     --shadow-card: 0 8px 32px hsl(222 47% 3% / 0.4);
     --shadow-lift: 0 20px 40px hsl(222 47% 3% / 0.6);
 
-    /* Transitions */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Transitions (avoid `all` for better rendering performance) */
+    --transition-smooth: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
@@ -72,12 +72,16 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-display);
     overflow-x: hidden;
+    touch-action: pan-y;
+    min-height: 100vh;
+    transform: translateZ(0);
   }
 
   ::selection {
@@ -188,6 +192,10 @@
 
 @layer utilities {
   /* Animations */
+  .animate-fade-up, .animate-fade-in, .animate-slide-in-left, .animate-slide-in-right, .animate-scale-in, .animate-float, .animate-pulse-glow {
+    will-change: transform, opacity;
+  }
+
   .animate-fade-up {
     animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     opacity: 0;

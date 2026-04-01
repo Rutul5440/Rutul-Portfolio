@@ -28,11 +28,11 @@ const experiences = [
   },
   {
     type: 'education',
-    title: 'B.S. Computer Science',
-    company: 'University of Technology',
-    period: '2015 - 2019',
+    title: 'B.Tech Computer Engineering',
+    company: 'Ganpat University',
+    period: '2021 - 2025',
     description: 'Graduated with honors. Focused on software engineering, data structures, and web development.',
-    achievements: ['GPA: 3.8/4.0', "Dean's List", 'Capstone Project Award'],
+    achievements: ['GPA: 7.0 / 10'],
   },
 ];
 

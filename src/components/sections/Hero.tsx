@@ -53,7 +53,7 @@ const Hero = () => {
           }`}
         >
           <span className="text-foreground">Hi, I'm </span>
-          <span className="gradient-text glow-text">John Doe</span>
+          <span className="gradient-text glow-text">Rutul Suthar</span>
         </h1>
 
         {/* Role with typing effect */}

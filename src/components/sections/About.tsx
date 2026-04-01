@@ -34,7 +34,7 @@ const About = () => {
                   <span className="text-5xl">👨‍💻</span>
                 </div>
                 
-                <h3 className="text-2xl font-bold mb-2 gradient-text">John Doe</h3>
+                <h3 className="text-2xl font-bold mb-2 gradient-text">Rutul Suthar</h3>
                 <p className="text-muted-foreground text-center font-mono text-sm">
                   Software Engineer
                 </p>

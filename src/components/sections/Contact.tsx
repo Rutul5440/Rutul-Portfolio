@@ -24,7 +24,7 @@ const Contact = () => {
   };
 
   // Replace with your actual LinkedIn URL
-  const linkedInUrl = 'https://linkedin.com/in/your-profile';
+  const linkedInUrl = 'https://www.linkedin.com/in/rutul-suthar-a0a8951b9/';
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
@@ -75,8 +75,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground text-sm">Email</p>
-                  <a href="mailto:hello@johndoe.dev" className="text-foreground hover:text-primary transition-colors">
-                    hello@johndoe.dev
+                  <a href="mailto:buildwithrutul@gmail.com" className="text-foreground hover:text-primary transition-colors">
+                    buildwithrutul@gmail.com
                   </a>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground text-sm">Location</p>
-                  <p className="text-foreground">San Francisco, CA</p>
+                  <p className="text-foreground">Ahmedabad, India</p>
                 </div>
               </div>
             </div>
@@ -132,7 +132,7 @@ const Contact = () => {
                     name="name"
                     value={formState.name}
                     onChange={handleChange}
-                    placeholder="John Doe"
+                    placeholder="Rutul Suthar"
                     className="w-full px-4 py-3 rounded-lg bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
                     required
                   />
@@ -149,7 +149,7 @@ const Contact = () => {
                     name="email"
                     value={formState.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="abc@gmail.com"
                     className="w-full px-4 py-3 rounded-lg bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
                     required
                   />

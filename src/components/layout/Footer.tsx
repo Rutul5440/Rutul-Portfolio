@@ -43,7 +43,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-muted-foreground text-sm flex items-center gap-1">
-            © {currentYear} Made with <Heart size={14} className="text-primary animate-pulse" /> All rights reserved.
+            © {currentYear} Made by <span className="text-primary animate-pulse">Rutul Suthar</span> All rights reserved.
           </p>
         </div>
 
