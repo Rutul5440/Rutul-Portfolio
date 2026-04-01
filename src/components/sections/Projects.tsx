@@ -3,49 +3,20 @@ import { ExternalLink, Github, Folder } from 'lucide-react';
 
 const projects = [
   {
-    title: 'E-Commerce Platform',
-    description: 'A full-featured e-commerce solution with real-time inventory management, payment processing, and analytics dashboard.',
-    tech: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
+    title: 'CAR TOURS',
+    description: 'A rental-based web platform for travelers to book cars for trips and picnics, featuring an admin panel to manage cars, trip ideas, FAQs, contact inquiries, and overall operations.',
+    tech: ['PHP', 'Laravel'],
     github: '#',
     live: '#',
     featured: true,
   },
   {
-    title: 'Task Management App',
-    description: 'Collaborative project management tool with real-time updates, drag-and-drop functionality, and team workspaces.',
-    tech: ['Next.js', 'TypeScript', 'Prisma', 'Socket.io'],
+    title: 'PIXEL- POSITIONS',
+    description: 'Created a platform to discover top tech jobs and showcase digital talent, allowing connections with leading companies. Connect with leading companies and land your dream role effortlessly.',
+    tech: ['PHP', 'Laravel', 'Tailwind CSS'],
     github: '#',
     live: '#',
     featured: true,
-  },
-  {
-    title: 'AI Content Generator',
-    description: 'An AI-powered content creation platform leveraging GPT models for generating marketing copy and blog posts.',
-    tech: ['React', 'Python', 'FastAPI', 'OpenAI'],
-    github: '#',
-    live: '#',
-    featured: true,
-  },
-  {
-    title: 'Real-time Chat App',
-    description: 'Scalable messaging platform with end-to-end encryption, media sharing, and group conversations.',
-    tech: ['React', 'Firebase', 'WebRTC'],
-    github: '#',
-    featured: false,
-  },
-  {
-    title: 'Portfolio Generator',
-    description: 'Dynamic portfolio builder for developers with customizable themes and GitHub integration.',
-    tech: ['Next.js', 'MDX', 'Tailwind'],
-    github: '#',
-    featured: false,
-  },
-  {
-    title: 'Weather Dashboard',
-    description: 'Beautiful weather app with 7-day forecasts, location-based data, and animated visualizations.',
-    tech: ['React', 'Chart.js', 'OpenWeather API'],
-    github: '#',
-    featured: false,
   },
 ];
 

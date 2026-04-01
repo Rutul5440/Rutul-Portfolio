@@ -1,5 +1,5 @@
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Mail, MapPin, Send, Linkedin } from 'lucide-react';
+import { Mail, MapPin, Send, Linkedin, Phone, Github } from 'lucide-react';
 import { useState } from 'react';
 
 const Contact = () => {
@@ -24,7 +24,7 @@ const Contact = () => {
   };
 
   // Replace with your actual LinkedIn URL
-  const linkedInUrl = 'https://www.linkedin.com/in/rutul-suthar-a0a8951b9/';
+  const linkedInUrl = 'https://linkedin.com/in/Rutul Suthar';
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
@@ -75,8 +75,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground text-sm">Email</p>
-                  <a href="mailto:buildwithrutul@gmail.com" className="text-foreground hover:text-primary transition-colors">
-                    buildwithrutul@gmail.com
+                  <a href="mailto:rutulsuthar2018@gmail.com" className="text-foreground hover:text-primary transition-colors">
+                    rutulsuthar2018@gmail.com
                   </a>
                 </div>
               </div>
@@ -87,7 +87,31 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground text-sm">Location</p>
-                  <p className="text-foreground">Ahmedabad, India</p>
+                  <p className="text-foreground">Ahmedabad, Gujarat</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <Phone className="text-primary" size={22} />
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-sm">Phone</p>
+                  <a href="tel:+91-8866223865" className="text-foreground hover:text-primary transition-colors">
+                    +91-8866223865
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                  <Github className="text-primary" size={22} />
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-sm">GitHub</p>
+                  <a href="https://github.com/Rutul5440" target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-primary transition-colors">
+                    github.com/Rutul5440
+                  </a>
                 </div>
               </div>
             </div>

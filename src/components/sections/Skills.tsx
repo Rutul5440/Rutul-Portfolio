@@ -3,43 +3,42 @@ import { Code, Database, Wrench, Cloud } from 'lucide-react';
 
 const skillCategories = [
   {
-    title: 'Frontend',
+    title: 'Languages',
     icon: Code,
     skills: [
-      { name: 'React / Next.js', level: 95 },
-      { name: 'TypeScript', level: 90 },
-      { name: 'Tailwind CSS', level: 92 },
-      { name: 'Vue.js', level: 80 },
+      { name: 'Angular', level: 90 },
+      { name: 'JavaScript', level: 90 },
+      { name: 'SQL', level: 90 },
+      { name: 'Python', level: 90 },
+      { name: 'PHP', level: 90 },
+      { name: 'HTML/CSS', level: 90 },
     ],
   },
   {
-    title: 'Backend',
+    title: 'Frameworks/Libraries',
     icon: Database,
     skills: [
-      { name: 'Node.js', level: 90 },
-      { name: 'Python', level: 85 },
-      { name: 'PostgreSQL', level: 88 },
-      { name: 'GraphQL', level: 82 },
+      { name: 'ASP .Net', level: 90 },
+      { name: 'Laravel', level: 90 },
+      { name: 'TailwindCSS', level: 90 },
     ],
   },
   {
-    title: 'Tools & DevOps',
+    title: 'Databases',
     icon: Wrench,
     skills: [
-      { name: 'Git / GitHub', level: 95 },
-      { name: 'Docker', level: 85 },
-      { name: 'CI/CD', level: 80 },
-      { name: 'Linux', level: 78 },
+      { name: 'MySQL', level: 90 },
     ],
   },
   {
-    title: 'Cloud & Services',
+    title: 'Tools & Technologies',
     icon: Cloud,
     skills: [
-      { name: 'AWS', level: 85 },
-      { name: 'Firebase', level: 88 },
-      { name: 'Vercel', level: 92 },
-      { name: 'Supabase', level: 86 },
+      { name: 'SSMS', level: 90 },
+      { name: 'Visual Studio', level: 90 },
+      { name: 'Visual Studio Code', level: 90 },
+      { name: 'Git', level: 90 },
+      { name: 'GitHub', level: 90 },
     ],
   },
 ];

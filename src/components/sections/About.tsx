@@ -2,10 +2,10 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Target, Rocket, Heart, Code } from 'lucide-react';
 
 const highlights = [
-  { icon: Code, label: '5+ Years Experience' },
-  { icon: Target, label: '50+ Projects Delivered' },
-  { icon: Rocket, label: 'Performance Focused' },
-  { icon: Heart, label: 'Passion Driven' },
+  { icon: Code, label: 'Angular & ASP .NET' },
+  { icon: Target, label: 'PHP & Laravel' },
+  { icon: Rocket, label: 'Full-Stack Development' },
+  { icon: Heart, label: 'Problem Solver' },
 ];
 
 const About = () => {
@@ -78,20 +78,20 @@ const About = () => {
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p>
                 I'm a passionate <span className="text-foreground font-medium">Full-Stack Developer</span> with 
-                over 5 years of experience building web applications that make a difference. I specialize in 
-                creating seamless user experiences backed by robust, scalable architectures.
+                experience in Angular, ASP .NET, PHP, and Laravel. I specialize in 
+                creating dynamic web applications and admin panels with efficient data management.
               </p>
               
               <p>
-                My journey in software development started with curiosity and has evolved into a deep passion 
-                for solving complex problems with elegant solutions. I believe in writing 
-                <span className="text-primary"> clean, maintainable code</span> that stands the test of time.
+                My journey in software development includes internships at Kpyxal Solutions LLP and Avichal Techno Labs, 
+                where I built scalable admin panels and implemented CRUD operations with role-based access control. 
+                Currently working at Flow Rocket LLC using Angular and ASP .NET.
               </p>
               
               <p>
-                When I'm not coding, you'll find me exploring new technologies, contributing to open-source 
-                projects, or sharing knowledge with the developer community. I'm always eager to take on new 
-                challenges and push the boundaries of what's possible.
+                I believe in writing <span className="text-primary"> clean, maintainable code</span> and 
+                enhancing data accuracy through real-time validation and error handling. I'm always eager to 
+                take on new challenges and learn new technologies.
               </p>
             </div>
 
