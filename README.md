@@ -4,10 +4,8 @@ Welcome to my personal developer portfolio project. This application showcases m
 
 ---
 
-## 🌐 Live Project
-
-You can view the live project here:
-👉 https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🌐 Live
+https://rutul5440.github.io/Rutul-Portfolio/
 
 ---
 
