@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type MouseEvent } from 'react';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
@@ -21,6 +21,19 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.currentTarget === e.target) {
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   const handleNavClick = (href: string) => {
     const target = document.querySelector(href);
@@ -103,10 +116,13 @@ const Header = () => {
       {/* Mobile Menu */}
       <div
         id="mobile-menu"
-        className={`md:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur-xl transition-all duration-500 pointer-events-none ${
+        role="dialog"
+        aria-modal="true"
+        onClick={handleOverlayClick}
+        className={`md:hidden fixed inset-0 z-60 bg-background/95 backdrop-blur-xl transition-all duration-500 ${
           isMobileMenuOpen
             ? 'opacity-100 visible pointer-events-auto'
-            : 'opacity-0 invisible'
+            : 'opacity-0 invisible pointer-events-none'
         }`}
       >
         <ul className="flex flex-col items-center justify-center min-h-full gap-8 pt-24">
