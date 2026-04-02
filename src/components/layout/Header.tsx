@@ -23,9 +23,18 @@ const Header = () => {
   }, []);
 
   const handleNavClick = (href: string) => {
+    const target = document.querySelector(href);
+
+    if (target instanceof HTMLElement) {
+      const headerHeight =
+        document.querySelector('header')?.getBoundingClientRect().height ?? 72;
+      const targetOffset =
+        window.pageYOffset + target.getBoundingClientRect().top - headerHeight;
+
+      window.scrollTo({ top: targetOffset, behavior: 'smooth' });
+    }
+
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -53,12 +62,16 @@ const Header = () => {
         <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <li key={link.name}>
-              <button
-                onClick={() => handleNavClick(link.href)}
+              <a
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
                 className="text-muted-foreground hover:text-primary link-underline transition-colors duration-300"
               >
                 {link.name}
-              </button>
+              </a>
             </li>
           ))}
         </ul>
@@ -80,6 +93,8 @@ const Header = () => {
           className="md:hidden text-foreground p-2 hover:text-primary transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
+          aria-controls="mobile-menu"
+          aria-expanded={isMobileMenuOpen}
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -87,11 +102,14 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden fixed inset-0 top-[72px] bg-background/95 backdrop-blur-xl transition-all duration-500 ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        id="mobile-menu"
+        className={`md:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur-xl transition-all duration-500 pointer-events-none ${
+          isMobileMenuOpen
+            ? 'opacity-100 visible pointer-events-auto'
+            : 'opacity-0 invisible'
         }`}
       >
-        <ul className="flex flex-col items-center justify-center h-full gap-8">
+        <ul className="flex flex-col items-center justify-center min-h-full gap-8 pt-24">
           {navLinks.map((link, index) => (
             <li
               key={link.name}
@@ -102,12 +120,16 @@ const Header = () => {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <button
-                onClick={() => handleNavClick(link.href)}
+              <a
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
                 className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
               >
                 {link.name}
-              </button>
+              </a>
             </li>
           ))}
           <li
