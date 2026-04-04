@@ -1,5 +1,5 @@
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Mail, MapPin, Send, Linkedin, Phone, Github } from 'lucide-react';
+import { Mail, MapPin, Send, Linkedin, Phone, Github, CheckCircle, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
 const Contact = () => {
@@ -9,11 +9,67 @@ const Contact = () => {
     email: '',
     message: '',
   });
+  const [isSending, setIsSending] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalDescription, setModalDescription] = useState('');
+  const [modalStatus, setModalStatus] = useState<'success' | 'error'>('success');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic would go here
-    console.log('Form submitted:', formState);
+    setIsSending(true);
+
+    const endpoint = 'https://formsubmit.co/ajax/rutulsuthar2018@gmail.com';
+    const formData = new FormData();
+    const senderName = formState.name || 'Friend';
+    const senderEmail = formState.email;
+    const previewText = formState.message.length > 80 ? `${formState.message.slice(0, 80)}...` : formState.message;
+
+    formData.append('name', formState.name);
+    formData.append('email', formState.email);
+    formData.append('message', formState.message);
+    formData.append('Message Status', `✅ Message Received!\n\nThank you for reaching out, ${senderName}. I have received your message and will get back to you shortly.\n\nYour message preview:\n${previewText}`);
+    formData.append('Reply Details', `Subject: ${formState.name ? `${formState.name} says hello` : 'New message from contact form'}\nFrom: ${senderEmail}\n\nMessage:\n${formState.message}`);
+    formData.append('_replyto', senderEmail);
+    formData.append('_cc', senderEmail);
+    formData.append('_subject', `New message from ${senderName} via portfolio contact form`);
+    formData.append('_template', 'basic');
+    formData.append('_autoresponse', `✅ Message Received!\n\nHi ${senderName},\n\nThank you for getting in touch. I’ve received your message and will respond as soon as possible.\n\nYour message:\n${formState.message}\n\nWarm regards,\nRutul Suthar\nSoftware Developer`);
+    formData.append('_captcha', 'false');
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+      });
+
+      let data: any = undefined;
+      try {
+        data = await response.json();
+      } catch {
+        data = undefined;
+      }
+
+      if (!response.ok || data?.success === false) {
+        throw new Error('Failed to send your message.');
+      }
+
+      setModalStatus('success');
+      setModalTitle('Message sent successfully');
+      setModalDescription(
+        `Thanks ${formState.name || 'there'}! Your message has been delivered to rutulsuthar2018@gmail.com. A confirmation copy was sent to ${formState.email}.`,
+      );
+      setFormState({ name: '', email: '', message: '' });
+    } catch (error) {
+      setModalStatus('error');
+      setModalTitle('Unable to send mail');
+      setModalDescription(
+        'Something went wrong while sending your message. Please try again, or email directly to rutulsuthar2018@gmail.com.',
+      );
+    } finally {
+      setModalOpen(true);
+      setIsSending(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -199,13 +255,47 @@ const Contact = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full btn-primary flex items-center justify-center gap-2"
+                  disabled={isSending}
+                  className="w-full btn-primary flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  <span>Send Message</span>
+                  <span>{isSending ? 'Sending...' : 'Send Message'}</span>
                   <Send size={18} />
                 </button>
               </div>
             </form>
+
+            {modalOpen ? (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6">
+                <div className="w-full max-w-xl rounded-[2rem] border border-white/10 bg-[#0B1324] p-8 shadow-2xl shadow-primary/20">
+                  <div className="flex flex-col items-center gap-4 text-center">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary to-cyan-500 text-white shadow-lg shadow-primary/30">
+                      {modalStatus === 'success' ? (
+                        <CheckCircle className="h-10 w-10" />
+                      ) : (
+                        <XCircle className="h-10 w-10" />
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="text-2xl font-semibold text-white">{modalTitle}</h3>
+                      <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                        {modalDescription}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 flex justify-center">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-primary/90"
+                      onClick={() => setModalOpen(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
