@@ -1,6 +1,9 @@
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { buildOwnerEmailTemplate, buildSenderConfirmationTemplate } from '@/lib/emailTemplates';
 import { Mail, MapPin, Send, Linkedin, Phone, Github, CheckCircle, XCircle } from 'lucide-react';
 import { useState } from 'react';
+
+type EmailTemplatePayload = ReturnType<typeof buildOwnerEmailTemplate>;
 
 const Contact = () => {
   const { ref, isVisible } = useScrollReveal();
@@ -19,52 +22,89 @@ const Contact = () => {
     e.preventDefault();
     setIsSending(true);
 
-    const endpoint = 'https://formsubmit.co/ajax/rutulsuthar2018@gmail.com';
-    const formData = new FormData();
-    const senderName = formState.name || 'Friend';
-    const senderEmail = formState.email;
-    const previewText = formState.message.length > 80 ? `${formState.message.slice(0, 80)}...` : formState.message;
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const ownerTemplateId = import.meta.env.VITE_EMAILJS_OWNER_TEMPLATE_ID;
+    const autoreplyTemplateId = import.meta.env.VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const senderName = formState.name.trim();
+    const senderEmail = formState.email.trim();
+    const senderMessage = formState.message.trim();
 
-    formData.append('name', formState.name);
-    formData.append('email', formState.email);
-    formData.append('message', formState.message);
-    formData.append('Message Status', `✅ Message Received!\n\nThank you for reaching out, ${senderName}. I have received your message and will get back to you shortly.\n\nYour message preview:\n${previewText}`);
-    formData.append('Reply Details', `Subject: ${formState.name ? `${formState.name} says hello` : 'New message from contact form'}\nFrom: ${senderEmail}\n\nMessage:\n${formState.message}`);
-    formData.append('_replyto', senderEmail);
-    formData.append('_cc', senderEmail);
-    formData.append('_subject', `New message from ${senderName} via portfolio contact form`);
-    formData.append('_template', 'basic');
-    formData.append('_autoresponse', `✅ Message Received!\n\nHi ${senderName},\n\nThank you for getting in touch. I’ve received your message and will respond as soon as possible.\n\nYour message:\n${formState.message}\n\nWarm regards,\nRutul Suthar\nSoftware Developer`);
-    formData.append('_captcha', 'false');
+    if (!serviceId || !ownerTemplateId || !autoreplyTemplateId || !publicKey) {
+      setModalStatus('error');
+      setModalTitle('Email service is not configured');
+      setModalDescription(
+        'Add your EmailJS service ID, public key, owner template ID, and autoresponse template ID in Vite environment variables before using the contact form.',
+      );
+      setModalOpen(true);
+      setIsSending(false);
+      return;
+    }
 
-    try {
-      const response = await fetch(endpoint, {
+    const submittedAt = new Intl.DateTimeFormat('en-IN', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date());
+
+    const ownerEmail = buildOwnerEmailTemplate({
+      name: senderName,
+      email: senderEmail,
+      message: senderMessage,
+      submittedAt,
+    });
+
+    const senderEmailTemplate = buildSenderConfirmationTemplate({
+      name: senderName,
+      email: senderEmail,
+      message: senderMessage,
+      submittedAt,
+    });
+
+    const sendEmail = async (templateId: string, template: EmailTemplatePayload) => {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: serviceId,
+          template_id: templateId,
+          user_id: publicKey,
+          template_params: {
+            subject: template.subject,
+            preview_text: template.previewText,
+            email_html: template.html,
+            plain_text: template.text,
+            reply_to: senderEmail,
+            sender_name: senderName,
+            sender_email: senderEmail,
+            receiver_name: 'Rutul Suthar',
+          },
+        }),
       });
 
-      let data: any = undefined;
-      try {
-        data = await response.json();
-      } catch {
-        data = undefined;
+      if (!response.ok) {
+        throw new Error('Failed to send email.');
       }
+    };
 
-      if (!response.ok || data?.success === false) {
-        throw new Error('Failed to send your message.');
-      }
+    try {
+      await Promise.all([
+        sendEmail(ownerTemplateId, ownerEmail),
+        sendEmail(autoreplyTemplateId, senderEmailTemplate),
+      ]);
 
       setModalStatus('success');
       setModalTitle('Message sent successfully');
       setModalDescription(
-        `Thanks ${formState.name || 'there'}! Your message has been delivered to rutulsuthar2018@gmail.com. A confirmation copy was sent to ${formState.email}.`,
+        `Thanks ${formState.name || 'there'}! Your message has been delivered to itxrutul@gmaail.com. A confirmation copy was sent to ${formState.email}.`,
       );
       setFormState({ name: '', email: '', message: '' });
-    } catch (error) {
+    } catch {
       setModalStatus('error');
       setModalTitle('Unable to send mail');
       setModalDescription(
-        'Something went wrong while sending your message. Please try again, or email directly to rutulsuthar2018@gmail.com.',
+        'Something went wrong while sending your message. Please check your EmailJS template setup, then try again, or email directly to itxrutul@gmaail.com.',
       );
     } finally {
       setModalOpen(true);
@@ -79,51 +119,47 @@ const Contact = () => {
     }));
   };
 
-  // Replace with your actual LinkedIn URL
   const linkedInUrl = 'https://linkedin.com/in/Rutul Suthar';
 
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[150px]" />
 
       <div className="section-container relative" ref={ref}>
-        {/* Header */}
         <div className="text-center mb-16">
-          <span 
+          <span
             className={`text-primary font-mono text-sm mb-4 block transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             // Get In Touch
           </span>
-          <h2 
+          <h2
             className={`section-title transition-all duration-700 delay-100 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             Let's Work <span className="gradient-text">Together</span>
           </h2>
-          <p 
+          <p
             className={`section-subtitle max-w-2xl mx-auto transition-all duration-700 delay-200 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            Have a project in mind or just want to chat? I'd love to hear from you. 
+            Have a project in mind or just want to chat? I'd love to hear from you.
             Let's create something amazing together.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Contact Info */}
-          <div 
+          <div
             className={`transition-all duration-700 delay-300 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}
           >
             <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-            
+
             <div className="space-y-6 mb-8">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
@@ -131,8 +167,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground text-sm">Email</p>
-                  <a href="mailto:rutulsuthar2018@gmail.com" className="text-foreground hover:text-primary transition-colors">
-                    rutulsuthar2018@gmail.com
+                  <a href="mailto:itxrutul@gmaail.com" className="text-foreground hover:text-primary transition-colors">
+                    itxrutul@gmaail.com
                   </a>
                 </div>
               </div>
@@ -172,7 +208,6 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* LinkedIn Button */}
             <a
               href={linkedInUrl}
               target="_blank"
@@ -183,25 +218,22 @@ const Contact = () => {
               <span>Connect on LinkedIn</span>
             </a>
 
-            {/* Decorative card */}
             <div className="mt-12 p-6 rounded-xl bg-gradient-to-br from-primary/10 to-glow-secondary/10 border border-primary/20">
               <p className="text-foreground font-medium mb-2">Available for freelance work</p>
               <p className="text-muted-foreground text-sm">
-                I'm currently open to new opportunities and exciting projects. 
+                I'm currently open to new opportunities and exciting projects.
                 Let's discuss how I can help bring your vision to life.
               </p>
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div 
+          <div
             className={`transition-all duration-700 delay-400 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
             }`}
           >
             <form onSubmit={handleSubmit} className="glass-card p-8">
               <div className="space-y-6">
-                {/* Name Input */}
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                     Your Name
@@ -218,7 +250,6 @@ const Contact = () => {
                   />
                 </div>
 
-                {/* Email Input */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                     Your Email
@@ -235,7 +266,6 @@ const Contact = () => {
                   />
                 </div>
 
-                {/* Message Input */}
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
                     Your Message
@@ -252,7 +282,6 @@ const Contact = () => {
                   />
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSending}
