@@ -97,14 +97,14 @@ const Contact = () => {
       setModalStatus('success');
       setModalTitle('Message sent successfully');
       setModalDescription(
-        `Thanks ${formState.name || 'there'}! Your message has been delivered to itxrutul@gmaail.com. A confirmation copy was sent to ${formState.email}.`,
+        `Thanks ${formState.name || 'there'}! Your message has been delivered to itxrutul@gmail.com. A confirmation copy was sent to ${formState.email}.`,
       );
       setFormState({ name: '', email: '', message: '' });
     } catch {
       setModalStatus('error');
       setModalTitle('Unable to send mail');
       setModalDescription(
-        'Something went wrong while sending your message. Please check your EmailJS template setup, then try again, or email directly to itxrutul@gmaail.com.',
+        'Something went wrong while sending your message. Please check your EmailJS template setup, then try again, or email directly to itxrutul@gmail.com.',
       );
     } finally {
       setModalOpen(true);
@@ -167,8 +167,8 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-muted-foreground text-sm">Email</p>
-                  <a href="mailto:itxrutul@gmaail.com" className="text-foreground hover:text-primary transition-colors">
-                    itxrutul@gmaail.com
+                  <a href="mailto:itxrutul@gmail.com" className="text-foreground hover:text-primary transition-colors">
+                    itxrutul@gmail.com
                   </a>
                 </div>
               </div>

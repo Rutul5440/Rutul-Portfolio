@@ -15,7 +15,7 @@ type BuiltEmailTemplate = {
 const BRAND = {
   name: 'Rutul Suthar',
   role: 'Full-Stack Developer',
-  email: 'itxrutul@gmaail.com',
+  email: 'itxrutul@gmail.com',
   phone: '+91 88662 23865',
   location: 'Ahmedabad, Gujarat, India',
   website: 'https://rutul5440.github.io/Rutul-Portfolio/',
@@ -33,6 +33,41 @@ const formatMessageHtml = (message: string) =>
   escapeHtml(message).replace(/\n/g, '<br />');
 
 const formatMessageText = (message: string) => message.replace(/\r\n/g, '\n');
+
+const infoCard = (label: string, value: string, accent = false) => `
+  <td style="padding:0 8px 16px 8px;" valign="top">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="min-width:180px;background-color:${accent ? '#eefbf7' : '#f7f9fc'};border:1px solid ${accent ? '#bdecd9' : '#e5eaf1'};border-radius:18px;">
+      <tr>
+        <td style="padding:18px 18px 16px 18px;">
+          <p style="margin:0 0 8px 0;font-size:11px;line-height:1.4;letter-spacing:0.12em;text-transform:uppercase;color:#6f7e90;font-weight:700;">
+            ${escapeHtml(label)}
+          </p>
+          <p style="margin:0;font-size:16px;line-height:1.6;color:#0f1726;font-weight:${accent ? '700' : '600'};">
+            ${escapeHtml(value)}
+          </p>
+        </td>
+      </tr>
+    </table>
+  </td>`;
+
+const messagePanel = (label: string, message: string) => `
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f7f9fc;border:1px solid #e5eaf1;border-radius:22px;">
+    <tr>
+      <td style="padding:24px;">
+        <p style="margin:0 0 10px 0;font-size:11px;line-height:1.4;letter-spacing:0.12em;text-transform:uppercase;color:#6f7e90;font-weight:700;">
+          ${escapeHtml(label)}
+        </p>
+        <p style="margin:0;font-size:16px;line-height:1.9;color:#213041;">
+          ${formatMessageHtml(message)}
+        </p>
+      </td>
+    </tr>
+  </table>`;
+
+const ctaButton = (href: string, label: string) => `
+  <a href="${escapeHtml(href)}" style="display:inline-block;padding:14px 22px;border-radius:999px;background-color:#10263f;color:#ffffff;font-size:14px;font-weight:700;text-decoration:none;">
+    ${escapeHtml(label)}
+  </a>`;
 
 const buildShell = ({
   previewText,
@@ -55,50 +90,50 @@ const buildShell = ({
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${escapeHtml(title)}</title>
   </head>
-  <body style="margin:0;padding:0;background-color:#050b17;font-family:Arial,Helvetica,sans-serif;color:#e6eef8;">
+  <body style="margin:0;padding:0;background-color:#edf2f7;font-family:Arial,Helvetica,sans-serif;color:#142033;">
     <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
       ${escapeHtml(previewText)}
     </div>
-    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:radial-gradient(circle at top,#0f223f 0%,#050b17 62%);padding:32px 16px;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:32px 16px;background:linear-gradient(180deg,#eef3f8 0%,#e6edf5 100%);">
       <tr>
         <td align="center">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:640px;border:1px solid #1d304d;border-radius:28px;background-color:#071120;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.35);">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:640px;background-color:#ffffff;border:1px solid #dde5ee;border-radius:28px;overflow:hidden;box-shadow:0 22px 60px rgba(15,23,38,0.08);">
             <tr>
-              <td style="padding:28px 28px 18px 28px;background:linear-gradient(135deg,#081427 0%,#0b1930 52%,#102340 100%);border-bottom:1px solid #183053;">
-                <div style="display:inline-block;padding:8px 14px;border-radius:999px;background-color:#102645;border:1px solid #1f3f67;color:#6ff3cf;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">
+              <td style="padding:30px 30px 22px 30px;background:linear-gradient(180deg,#ffffff 0%,#f7fafc 100%);border-bottom:1px solid #e7edf4;">
+                <div style="display:inline-block;padding:8px 14px;border-radius:999px;background-color:#eefbf7;border:1px solid #c7efdf;color:#17795d;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">
                   ${escapeHtml(eyebrow)}
                 </div>
-                <h1 style="margin:18px 0 10px 0;font-size:34px;line-height:1.15;color:#f8fbff;font-weight:800;">
+                <h1 style="margin:18px 0 10px 0;font-size:32px;line-height:1.15;color:#0f1726;font-weight:800;">
                   ${escapeHtml(title)}
                 </h1>
-                <p style="margin:0;font-size:17px;line-height:1.7;color:#a6b6cb;">
+                <p style="margin:0;font-size:16px;line-height:1.8;color:#58677a;">
                   ${escapeHtml(intro)}
                 </p>
               </td>
             </tr>
             <tr>
-              <td style="padding:28px;">
+              <td style="padding:30px;">
                 ${contentBlock}
               </td>
             </tr>
             <tr>
-              <td style="padding:0 28px 28px 28px;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #17304f;padding-top:22px;">
+              <td style="padding:0 30px 30px 30px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e7edf4;padding-top:22px;">
                   <tr>
                     <td>
-                      <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#f8fbff;">
+                      <p style="margin:0 0 6px 0;font-size:18px;font-weight:700;color:#0f1726;">
                         ${escapeHtml(BRAND.name)}
                       </p>
-                      <p style="margin:0 0 14px 0;font-size:14px;color:#67e7c1;font-weight:700;">
+                      <p style="margin:0 0 14px 0;font-size:13px;color:#17795d;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;">
                         ${escapeHtml(BRAND.role)}
                       </p>
-                      <p style="margin:0 0 6px 0;font-size:13px;line-height:1.7;color:#9db0c7;">
+                      <p style="margin:0 0 6px 0;font-size:13px;line-height:1.7;color:#58677a;">
                         ${escapeHtml(BRAND.email)} | ${escapeHtml(BRAND.phone)}
                       </p>
-                      <p style="margin:0 0 14px 0;font-size:13px;line-height:1.7;color:#9db0c7;">
+                      <p style="margin:0 0 14px 0;font-size:13px;line-height:1.7;color:#58677a;">
                         ${escapeHtml(BRAND.location)}
                       </p>
-                      <p style="margin:0;font-size:12px;line-height:1.7;color:#7d90a8;">
+                      <p style="margin:0;font-size:12px;line-height:1.7;color:#7a8798;">
                         ${escapeHtml(footerNote)}
                       </p>
                     </td>
@@ -125,40 +160,27 @@ export const buildOwnerEmailTemplate = ({
   const contentBlock = `
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
-        <td style="padding:0 0 20px 0;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-spacing:0 12px;">
+        <td style="padding:0 0 12px 0;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
             <tr>
-              <td style="padding:14px 18px;background-color:#0d1a2e;border:1px solid #17304f;border-radius:18px;">
-                <p style="margin:0 0 6px 0;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7f95b1;font-weight:700;">From</p>
-                <p style="margin:0;font-size:18px;color:#f8fbff;font-weight:700;">${escapeHtml(name)}</p>
-              </td>
+              ${infoCard('From', name)}
+              ${infoCard('Reply To', email, true)}
             </tr>
             <tr>
-              <td style="padding:14px 18px;background-color:#0d1a2e;border:1px solid #17304f;border-radius:18px;">
-                <p style="margin:0 0 6px 0;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7f95b1;font-weight:700;">Reply To</p>
-                <p style="margin:0;font-size:16px;color:#67e7c1;font-weight:700;">${escapeHtml(email)}</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:14px 18px;background-color:#0d1a2e;border:1px solid #17304f;border-radius:18px;">
-                <p style="margin:0 0 6px 0;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7f95b1;font-weight:700;">Received</p>
-                <p style="margin:0;font-size:16px;color:#d8e5f5;font-weight:600;">${escapeHtml(submittedAt)}</p>
-              </td>
+              ${infoCard('Received', submittedAt)}
+              ${infoCard('Source', 'Portfolio Contact Form')}
             </tr>
           </table>
         </td>
       </tr>
       <tr>
-        <td style="padding:24px;background:linear-gradient(180deg,#0c1a30 0%,#0a1528 100%);border:1px solid #17304f;border-radius:24px;">
-          <p style="margin:0 0 12px 0;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7f95b1;font-weight:700;">Message</p>
-          <p style="margin:0;font-size:17px;line-height:1.9;color:#edf4ff;">${formatMessageHtml(message)}</p>
+        <td style="padding:8px 0 0 0;">
+          ${messagePanel('Message', message)}
         </td>
       </tr>
       <tr>
-        <td style="padding-top:22px;">
-          <a href="mailto:${escapeHtml(email)}" style="display:inline-block;padding:14px 22px;border-radius:999px;background:linear-gradient(135deg,#6ff3cf 0%,#42b7ff 100%);color:#05101e;font-size:14px;font-weight:800;text-decoration:none;">
-            Reply to ${escapeHtml(name)}
-          </a>
+        <td style="padding-top:24px;">
+          ${ctaButton(`mailto:${email}`, `Reply to ${name}`)}
         </td>
       </tr>
     </table>`;
@@ -167,7 +189,7 @@ export const buildOwnerEmailTemplate = ({
     previewText,
     eyebrow: 'Portfolio Contact',
     title: 'New Message Received',
-    intro: 'A visitor just sent a message through your portfolio contact form.',
+    intro: 'A new message has arrived through your portfolio contact form.',
     contentBlock,
     footerNote: 'This email was generated from your portfolio contact form.',
   });
@@ -200,15 +222,15 @@ export const buildSenderConfirmationTemplate = ({
   const contentBlock = `
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
-        <td style="padding:0 0 22px 0;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:22px;background:linear-gradient(180deg,#0c1b31 0%,#091426 100%);border:1px solid #17304f;border-radius:24px;">
+        <td style="padding:0 0 18px 0;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:linear-gradient(180deg,#f9fbfd 0%,#f2f7fb 100%);border:1px solid #dfe8f0;border-radius:24px;">
             <tr>
-              <td>
-                <p style="margin:0 0 10px 0;font-size:20px;line-height:1.5;color:#67e7c1;font-weight:800;">
+              <td style="padding:24px;">
+                <p style="margin:0 0 10px 0;font-size:20px;line-height:1.5;color:#0f1726;font-weight:800;">
                   Your message is safely in my inbox.
                 </p>
-                <p style="margin:0;font-size:16px;line-height:1.8;color:#dbe7f7;">
-                  Thanks for reaching out, ${escapeHtml(name)}. I've received your message and I'll review it shortly before replying to <strong style="color:#f8fbff;">${escapeHtml(email)}</strong>.
+                <p style="margin:0;font-size:16px;line-height:1.8;color:#58677a;">
+                  Thanks for reaching out, ${escapeHtml(name)}. I received your message and I will get back to you soon at <strong style="color:#0f1726;">${escapeHtml(email)}</strong>.
                 </p>
               </td>
             </tr>
@@ -216,25 +238,27 @@ export const buildSenderConfirmationTemplate = ({
         </td>
       </tr>
       <tr>
-        <td style="padding:0 0 22px 0;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:22px;background-color:#0d1a2e;border:1px solid #17304f;border-radius:24px;">
+        <td style="padding:0 0 12px 0;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
             <tr>
-              <td>
-                <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#7f95b1;font-weight:700;">Message Summary</p>
-                <p style="margin:0 0 14px 0;font-size:14px;color:#9db0c7;">Received on ${escapeHtml(submittedAt)}</p>
-                <div style="padding:18px;background-color:#081323;border:1px solid #122844;border-radius:18px;">
-                  <p style="margin:0;font-size:16px;line-height:1.8;color:#edf4ff;">${formatMessageHtml(message)}</p>
-                </div>
-              </td>
+              ${infoCard('Sent By', name)}
+              ${infoCard('Sent To', email, true)}
+            </tr>
+            <tr>
+              ${infoCard('Received On', submittedAt)}
+              ${infoCard('Next Step', 'Personal reply soon')}
             </tr>
           </table>
         </td>
       </tr>
       <tr>
-        <td>
-          <a href="${escapeHtml(BRAND.website)}" style="display:inline-block;padding:14px 22px;border-radius:999px;background:linear-gradient(135deg,#6ff3cf 0%,#42b7ff 100%);color:#05101e;font-size:14px;font-weight:800;text-decoration:none;">
-            Visit Portfolio
-          </a>
+        <td style="padding:8px 0 0 0;">
+          ${messagePanel('Your Message', message)}
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-top:24px;">
+          ${ctaButton(BRAND.website, 'Visit Portfolio')}
         </td>
       </tr>
     </table>`;
@@ -243,9 +267,9 @@ export const buildSenderConfirmationTemplate = ({
     previewText,
     eyebrow: 'Message Confirmed',
     title: 'Thank You For Reaching Out',
-    intro: 'Your note has been received successfully. I usually respond as quickly as possible after reviewing project details.',
+    intro: 'Your note has been received successfully. Thanks for reaching out through my portfolio.',
     contentBlock,
-    footerNote: 'This is an automated confirmation from the portfolio contact form. Please wait for the direct reply.',
+    footerNote: 'This is an automated confirmation from my portfolio contact form. I will reply personally soon.',
   });
 
   const text = [
@@ -265,4 +289,3 @@ export const buildSenderConfirmationTemplate = ({
 
   return { subject, previewText, html, text };
 };
-

@@ -29,6 +29,17 @@ const Header = () => {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) {
       setIsMobileMenuOpen(false);
@@ -119,48 +130,58 @@ const Header = () => {
         role="dialog"
         aria-modal="true"
         onClick={handleOverlayClick}
-        className={`md:hidden fixed inset-0 z-60 bg-background/95 backdrop-blur-xl transition-all duration-500 ${
+        className={`md:hidden fixed inset-0 z-[60] h-dvh w-screen bg-background/75 backdrop-blur-2xl transition-all duration-300 ${
           isMobileMenuOpen
             ? 'opacity-100 visible pointer-events-auto'
             : 'opacity-0 invisible pointer-events-none'
         }`}
       >
-        <ul className="flex flex-col items-center justify-center min-h-full gap-8 pt-24">
-          {navLinks.map((link, index) => (
-            <li
-              key={link.name}
-              className={`transform transition-all duration-500 ${
+        <div className="flex min-h-full w-full flex-col px-4 pt-20 pb-6">
+          <div className="flex h-full w-full flex-col rounded-[28px] border border-border/60 bg-card/92 px-5 py-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+            <div className="mb-6 flex items-center justify-between border-b border-border/60 pb-4">
+              <span className="text-lg font-semibold text-foreground">Navigation</span>
+              <span className="text-sm text-muted-foreground">Choose a section</span>
+            </div>
+
+            <ul className="flex flex-1 flex-col justify-center gap-4">
+            {navLinks.map((link, index) => (
+              <li
+                key={link.name}
+                className={`transform transition-all duration-300 ${
+                  isMobileMenuOpen
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-4 opacity-0'
+                }`}
+                style={{ transitionDelay: `${index * 70}ms` }}
+              >
+                <a
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                  className="flex items-center justify-center rounded-2xl border border-border/70 bg-secondary/90 px-6 py-4 text-xl font-semibold text-foreground shadow-[0_10px_30px_rgba(0,0,0,0.18)] transition-colors hover:border-primary/50 hover:bg-secondary hover:text-primary"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+            </ul>
+
+            <div
+              className={`border-t border-border/60 pt-5 transition-all duration-300 ${
                 isMobileMenuOpen
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-4 opacity-0'
               }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              style={{ transitionDelay: `${navLinks.length * 70}ms` }}
             >
-              <a
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-                className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
-          <li
-            className={`mt-4 transform transition-all duration-500 ${
-              isMobileMenuOpen
-                ? 'translate-y-0 opacity-100'
-                : 'translate-y-4 opacity-0'
-            }`}
-            style={{ transitionDelay: `${navLinks.length * 100}ms` }}
-          >
-            <button onClick={() => handleNavClick('#contact')} className="btn-primary">
-              Let's Talk
-            </button>
-          </li>
-        </ul>
+              <button onClick={() => handleNavClick('#contact')} className="btn-primary w-full">
+                Let's Talk
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   );

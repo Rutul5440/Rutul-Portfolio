@@ -1,5 +1,6 @@
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Target, Rocket, Heart, Code } from 'lucide-react';
+import { Target, Rocket, Heart, Code, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const highlights = [
   { icon: Code, label: 'Angular & ASP .NET' },
@@ -10,6 +11,7 @@ const highlights = [
 
 const About = () => {
   const { ref, isVisible } = useScrollReveal();
+  const resumeUrl = `${import.meta.env.BASE_URL}resume/RutulSuthar_Resume.pdf`;
 
   return (
     <section id="about" className="py-24 relative">
@@ -93,6 +95,21 @@ const About = () => {
                 enhancing data accuracy through real-time validation and error handling. I'm always eager to 
                 take on new challenges and learn new technologies.
               </p>
+            </div>
+
+            <div className="mt-8 flex">
+              <Button asChild size="lg" className="w-full sm:w-auto shadow-lg shadow-primary/20">
+                <a
+                  href={resumeUrl}
+                  download="RutulSuthar_Resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Download Rutul Suthar resume"
+                >
+                  <Download size={18} />
+                  Download Resume
+                </a>
+              </Button>
             </div>
 
             {/* Philosophy card */}
